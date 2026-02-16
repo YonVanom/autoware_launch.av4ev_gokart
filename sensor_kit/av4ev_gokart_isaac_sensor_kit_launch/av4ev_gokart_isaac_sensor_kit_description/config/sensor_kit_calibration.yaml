@@ -1,0 +1,29 @@
+sensor_kit_base_link:
+  camera_link:
+    x: 0.03058
+    y: 0.0
+    z: -0.07977
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+  lidar_top_base_link:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+  gnss_link:
+    x: -0.03219
+    y: 0.0
+    z: -0.92977
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+  imu_link:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
