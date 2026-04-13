@@ -8,7 +8,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://roboracer_max_description/mesh/AV4EV_gokart.dae" scale="1 1 1"/>
+        <mesh filename="package://roboracer_max_description/mesh/roboracer_max.stl" scale="1 1 1"/>
       </geometry>
     </visual>
   </link>

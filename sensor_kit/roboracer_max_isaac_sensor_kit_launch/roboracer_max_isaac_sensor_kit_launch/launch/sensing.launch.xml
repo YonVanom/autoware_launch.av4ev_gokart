@@ -6,6 +6,9 @@
   <arg name="use_distortion_corrector" default="false" description="compensate the point cloud distortion caused by vehicle movement"/>
 
   <group>
+    <!-- Republishers -->
+    <include file="$(find-pkg-share roboracer_max_isaac_sensor_kit_launch)/launch/isaac_to_autoware.launch.xml" />
+    
     <!-- LiDAR Driver -->
     <include file="$(find-pkg-share roboracer_max_isaac_sensor_kit_launch)/launch/lidar.launch.xml">
       <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
@@ -20,7 +23,7 @@
     <include file="$(find-pkg-share roboracer_max_isaac_sensor_kit_launch)/launch/imu.launch.xml"/>
 
     <!-- GNSS Driver -->
-    <!-- GNSS Drives in not needed because the Isaac already publishes both gnss pose and pose with covariance topics -->
+    <include file="$(find-pkg-share roboracer_max_isaac_sensor_kit_launch)/launch/gnss.launch.xml"/>
 
     <!-- Vehicle Velocity Converter  -->
     <include file="$(find-pkg-share autoware_vehicle_velocity_converter)/launch/vehicle_velocity_converter.launch.xml">
