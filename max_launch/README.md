@@ -38,7 +38,7 @@ Allows scan matching to proceed with short-range or sparse LiDAR data and reduce
 - `stop_check_enabled`: **set to false (overridden)**
 
 **Reasoning:**  
-Prevents initialization failures caused by unreliable stop detection under noisy localization conditions.
+Allow (re-)initialization of localization with GNSS, even if the car is moving slightly. (E.g., on a hill).
 
 ---
 
@@ -69,7 +69,7 @@ Improves ground classification on steep slopes and banked terrain.
 - `minimum_reroute_length`: **30.0 → 1.0**
 
 **Reasoning:**  
-Enables faster rerouting in dynamic or unstable localization conditions.
+Enables faster rerouting.
 
 ---
 
