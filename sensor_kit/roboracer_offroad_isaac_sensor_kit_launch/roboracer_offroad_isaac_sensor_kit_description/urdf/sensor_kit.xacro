@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="sensor_kit_macro" params="parent x y z roll pitch yaw">
+    <xacro:include filename="$(find imu_description)/urdf/imu.xacro"/>
+    <xacro:include filename="zed_macro.urdf.xacro"/>
+    
+    <xacro:arg name="gpu" default="false"/>
+    <xacro:arg name="config_dir" default="$(find roboracer_offroad_isaac_sensor_kit_description)/config"/>
+
+    <xacro:property name="sensor_kit_base_link" default="sensor_kit_base_link"/>
+
+    <!-- base_link to sensor_kit_base_link -->
+    <joint name="${sensor_kit_base_link}_joint" type="fixed">
+      <origin rpy="${roll} ${pitch} ${yaw}" xyz="${x} ${y} ${z}"/>
+      <parent link="${parent}"/>
+      <child link="${sensor_kit_base_link}"/>
+    </joint>
+    <link name="${sensor_kit_base_link}">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </link>
+
+
+    <!-- sensor -->
+    <xacro:property name="calibration" value="${xacro.load_yaml('$(arg config_dir)/sensor_kit_calibration.yaml')}"/>
+
+
+    <!-- zed camera-->
+    <xacro:arg name="camera_name"   default="zed" />
+    <xacro:arg name="camera_model"  default="zedxm" />
+    <xacro:zed_camera name="$(arg camera_name)" model="$(arg camera_model)">
+      <gnss_origin>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </gnss_origin>
+    </xacro:zed_camera>
+      
+    <!-- Add a joint to connect the ZED Camera to the robot -->
+    <joint name="$(arg camera_name)_joint" type="fixed">
+      <parent link="${sensor_kit_base_link}"/>
+      <child link="$(arg camera_name)_camera_link"/>
+      <origin
+        xyz="${calibration['sensor_kit_base_link']['zed_camera_link']['x']}
+             ${calibration['sensor_kit_base_link']['zed_camera_link']['y']}
+             ${calibration['sensor_kit_base_link']['zed_camera_link']['z']}"
+        rpy="${calibration['sensor_kit_base_link']['zed_camera_link']['roll']}
+             ${calibration['sensor_kit_base_link']['zed_camera_link']['pitch']}
+             ${calibration['sensor_kit_base_link']['zed_camera_link']['yaw']}"
+      />
+    </joint>
+   
+    
+    <!-- gnss -->
+    <xacro:imu_macro
+      name="gnss"
+      parent="sensor_kit_base_link"
+      namespace=""
+      x="${calibration['sensor_kit_base_link']['gnss_link']['x']}"
+      y="${calibration['sensor_kit_base_link']['gnss_link']['y']}"
+      z="${calibration['sensor_kit_base_link']['gnss_link']['z']}"
+      roll="${calibration['sensor_kit_base_link']['gnss_link']['roll']}"
+      pitch="${calibration['sensor_kit_base_link']['gnss_link']['pitch']}"
+      yaw="${calibration['sensor_kit_base_link']['gnss_link']['yaw']}"
+      fps="100"
+    />
+
+
+    <!-- imu -->
+    <xacro:imu_macro
+      name="zed_imu"
+      parent="sensor_kit_base_link"
+      namespace=""
+      x="${calibration['sensor_kit_base_link']['zed_imu_link']['x']}"
+      y="${calibration['sensor_kit_base_link']['zed_imu_link']['y']}"
+      z="${calibration['sensor_kit_base_link']['zed_imu_link']['z']}"
+      roll="${calibration['sensor_kit_base_link']['zed_imu_link']['roll']}"
+      pitch="${calibration['sensor_kit_base_link']['zed_imu_link']['pitch']}"
+      yaw="${calibration['sensor_kit_base_link']['zed_imu_link']['yaw']}"
+      fps="100"
+    />
+  </xacro:macro>
+</robot>

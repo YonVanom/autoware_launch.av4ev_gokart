@@ -1,0 +1,22 @@
+sensor_kit_base_link:
+  zed_camera_link:
+    x: 0
+    y: 0
+    z: 0
+    roll: 0
+    pitch: 1.57079632679
+    yaw: 0
+  gnss_link:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0
+  zed_imu_link:
+    x: -0.025
+    y: 0.015
+    z: 0.015
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
