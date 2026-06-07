@@ -30,9 +30,10 @@ def generate_launch_description():
             ),
             launch_arguments={
                 'camera_model': LaunchConfiguration('camera_model'),
-                # Absolute namespace so ZED topics stay at /zed/zed_node/...
-                # even when this file is included inside the /sensing push-namespace.
-                'namespace': '/zed',
+                # Relative namespace — the wrapper prepends '/' itself, so passing
+                # '/zed' would produce '//zed/...'. With 'zed' the nodes land at
+                # /sensing/zed/zed_node/... inside Autoware's /sensing push-namespace.
+                'namespace': 'zed',
                 'ros_params_override_path': override,
                 'param_overrides': [
                     TextSubstitution(text='pos_tracking.area_file_path:='),
