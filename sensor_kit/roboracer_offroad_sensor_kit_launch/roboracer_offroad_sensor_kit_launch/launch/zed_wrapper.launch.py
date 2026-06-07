@@ -13,7 +13,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             'camera_model',
-            default_value='zedx',
+            default_value='zedxm',
             description='ZED camera model',
         ),
         DeclareLaunchArgument(
