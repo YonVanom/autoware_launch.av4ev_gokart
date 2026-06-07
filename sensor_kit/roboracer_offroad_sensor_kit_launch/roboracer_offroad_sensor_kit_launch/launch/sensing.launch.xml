@@ -5,7 +5,7 @@
   <arg name="pointcloud_container_name" default="pointcloud_container"/>
 
   <!-- ZED camera configuration -->
-  <arg name="camera_model" default="zedx" description="ZED camera model"/>
+  <arg name="camera_model" default="zedxm" description="ZED camera model"/>
   <arg name="area_file" default="/home/nvidia/ros2_ws/src/zed_slam/data/maps/your_map.area" description="Path to .area map file for lifetime/localize mode"/>
 
   <group>
