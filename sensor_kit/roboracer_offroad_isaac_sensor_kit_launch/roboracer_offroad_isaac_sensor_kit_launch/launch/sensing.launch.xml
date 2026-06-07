@@ -1,34 +1,29 @@
 <launch>
-  <!-- Launch driver argument is not used since the AWSIM doesn't need any hardware drivers. -->
-  <!-- <arg name="launch_driver" default="true" description="do launch driver"/> -->
-  <arg name="vehicle_mirror_param_file" description="path to the file of vehicle mirror position yaml"/>
+  <!-- Args required by tier4_sensing_launch calling convention -->
+  <arg name="launch_driver" default="true" description="do launch driver (unused in Isaac sim)"/>
+  <arg name="vehicle_mirror_param_file" description="path to the vehicle mirror yaml"/>
   <arg name="pointcloud_container_name" default="pointcloud_container"/>
-  <arg name="use_distortion_corrector" default="false" description="compensate the point cloud distortion caused by vehicle movement"/>
 
   <group>
-    <!-- RGB-D to Point Cloud for ZED-->
+    <!-- RGB-D to colored point cloud (Isaac /ego/rgb + /ego/depth → /ego/point_cloud) -->
     <include file="$(find-pkg-share roboracer_offroad_isaac_sensor_kit_launch)/launch/rgbd_to_pointcloud.launch.xml"/>
-    
-    <!-- Republishers -->
-    <include file="$(find-pkg-share roboracer_offroad_isaac_sensor_kit_launch)/launch/isaac_to_autoware.launch.xml" />
-    
-    <!-- LiDAR Driver -->    
+
+    <!-- Relay Isaac topics to Autoware sensing topic names -->
+    <include file="$(find-pkg-share roboracer_offroad_isaac_sensor_kit_launch)/launch/isaac_to_autoware.launch.xml"/>
+
+    <!-- Point cloud preprocessing: self-crop + relay to /sensing/lidar/concatenated/pointcloud -->
     <include file="$(find-pkg-share roboracer_offroad_isaac_sensor_kit_launch)/launch/lidar.launch.xml">
       <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
       <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
-      <arg name="use_distortion_corrector" value="$(var use_distortion_corrector)"/>
     </include>
 
-    <!-- Camera Driver -->
-    <!-- Camera Driver is not needed because the Isaac already publishes camera_info and image_raw. No relays are needed from hardware drivers. -->
-
-    <!-- IMU Driver -->
+    <!-- IMU corrector: bias-corrects /sensing/imu/imu_raw → /sensing/imu/imu_data -->
     <include file="$(find-pkg-share roboracer_offroad_isaac_sensor_kit_launch)/launch/imu.launch.xml"/>
 
-    <!-- GNSS Driver -->
+    <!-- GNSS: converts /ego/odom → /sensing/gnss/pose + pose_with_covariance -->
     <include file="$(find-pkg-share roboracer_offroad_isaac_sensor_kit_launch)/launch/gnss.launch.xml"/>
 
-    <!-- Vehicle Velocity Converter  -->
+    <!-- Vehicle Velocity Converter -->
     <include file="$(find-pkg-share autoware_vehicle_velocity_converter)/launch/vehicle_velocity_converter.launch.xml">
       <arg name="input_vehicle_velocity_topic" value="/vehicle/status/velocity_status"/>
       <arg name="output_twist_with_covariance" value="/sensing/vehicle_velocity_converter/twist_with_covariance"/>
