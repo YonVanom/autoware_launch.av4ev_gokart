@@ -6,6 +6,7 @@
   <arg name="is_simulation" default="false"/>
   <arg name="use_sim_time" default="false"/>
   <arg name="vehicle_model" default="sample_vehicle"/>
+  <arg name="use_circuit_planner" default="false" description="launch circuit route planner for continuous loop driving"/>
 
   <!-- Input topic parameters for planning modules -->
   <arg name="planning_input_objects_topic_name" default="/perception/object_recognition/objects"/>
@@ -122,4 +123,10 @@
     <arg name="planning_validator_intersection_collision_checker_param_path" value="$(var common_config_path)/planning_validator/intersection_collision_checker.param.yaml"/>
     <arg name="planning_validator_rear_collision_checker_param_path" value="$(var common_config_path)/planning_validator/rear_collision_checker.param.yaml"/>
   </include>
+
+  <!-- Circuit route planner: publishes a rolling-window LaneletRoute for continuous loop driving.
+       The mission planner remains running but is silent without a goal. -->
+  <group if="$(var use_circuit_planner)">
+    <include file="$(find-pkg-share autoware_circuit_route_planner)/launch/circuit_route_planner.launch.xml"/>
+  </group>
 </launch>

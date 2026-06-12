@@ -113,8 +113,8 @@
 
         # Offset arrangement in covariance estimation [m]
         # initial_pose_offset_model_x & initial_pose_offset_model_y must have the same number of elements.
-        initial_pose_offset_model_x: [0.0, 0.0, 0.5, -0.5, 1.0, -1.0]
-        initial_pose_offset_model_y: [0.5, -0.5, 0.0, 0.0, 0.0, 0.0]
+        initial_pose_offset_model_x: [0.0, 0.0, 0.1, -0.1, 0.2, -0.2]
+        initial_pose_offset_model_y: [0.1, -0.1, 0.0, 0.0, 0.0, 0.0]
 
         # In MULTI_NDT_SCORE, the parameter that adjusts the estimated 2D covariance
         temperature: 0.05

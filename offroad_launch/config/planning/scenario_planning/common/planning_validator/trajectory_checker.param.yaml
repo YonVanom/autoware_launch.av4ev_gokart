@@ -6,9 +6,9 @@
         threshold: 100.0
       curvature:
         enable: true
-        threshold: 1.0
+        threshold: 2.0
       relative_angle:
-        enable: true
+        enable: false
         threshold: 2.0 # (= 115 degree)
       lateral_accel:
         enable: true
@@ -47,7 +47,7 @@
         margin: 2.0
       trajectory_shift:
         enable: true
-        lat_shift_th: 0.5
+        lat_shift_th: 0.2
         forward_shift_th: 1.0
         backward_shift_th: 0.1
         handling_type: 2  # handling types are defined in common planning validator parameters
