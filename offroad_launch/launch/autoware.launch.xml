@@ -92,6 +92,7 @@
   <group if="$(var launch_sensing)">
     <include file="$(find-pkg-share offroad_launch)/launch/components/tier4_sensing_component.launch.xml">
       <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+      <arg name="map_path" value="$(var map_path)"/>
     </include>
   </group>
 

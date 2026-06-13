@@ -53,6 +53,10 @@ def generate_launch_description():
                 # spawning its own — its own container would land at /sensing/zed/
                 # under Autoware's push-namespace, not at the /zed/ path it computes.
                 'container_name': 'zed_container',
+                # The wrapper's inline parameter dict overrides YAML values, so
+                # these must be set here rather than in the YAML.
+                'publish_tf': 'false',
+                'publish_map_tf': 'false',
                 'ros_params_override_path': override,
                 'param_overrides': [
                     TextSubstitution(text='pos_tracking.area_file_path:='),
