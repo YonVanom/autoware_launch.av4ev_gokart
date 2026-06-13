@@ -6,7 +6,8 @@
 
   <!-- ZED camera configuration -->
   <arg name="camera_model" default="zedxm" description="ZED camera model"/>
-  <arg name="area_file" default="/home/nvidia/ros2_ws/src/zed_slam/data/maps/your_map.area" description="Path to .area map file for lifetime/localize mode"/>
+  <arg name="map_path" default="" description="map directory; area_file defaults to map_path/area.area"/>
+  <arg name="area_file" default="$(var map_path)/area.area" description="Path to .area map file for lifetime/localize mode"/>
 
   <group>
     <!-- ZED ROS2 Wrapper (pose, IMU, point cloud) -->
