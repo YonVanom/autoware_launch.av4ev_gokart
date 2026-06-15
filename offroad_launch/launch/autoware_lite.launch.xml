@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- Essential parameters -->
+  <arg name="map_path" description="point cloud and lanelet2 map directory path"/>
+  <arg name="vehicle_model" default="sample_vehicle" description="vehicle model name"/>
+  <arg name="sensor_model" default="sample_sensor_kit" description="sensor model name"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+  <arg name="data_path" default="$(env HOME)/autoware_data" description="packages data and artifacts directory path"/>
+
+  <!-- Modules to be launched -->
+  <arg name="launch_vehicle" default="true"/>
+  <arg name="launch_system" default="true"/>
+  <arg name="launch_map" default="true"/>
+  <arg name="launch_sensing" default="true"/>
+  <arg name="launch_sensing_driver" default="true"/>
+  <arg name="launch_localization" default="true"/>
+  <arg name="launch_perception" default="true"/>
+  <arg name="launch_planning" default="true"/>
+  <arg name="launch_control" default="true"/>
+  <arg name="launch_api" default="true"/>
+
+  <!-- Global parameters -->
+  <arg name="use_sim_time" default="false"/>
+  <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
+  <arg name="launch_vehicle_interface" default="true"/>
+  <arg name="check_external_emergency_heartbeat" default="false"/>
+
+  <!-- Map -->
+  <arg name="lanelet2_map_file" default="lanelet2_map.osm"/>
+  <arg name="pointcloud_map_file" default="pointcloud_map.pcd"/>
+
+  <!-- System -->
+  <arg name="system_run_mode" default="online"/>
+  <arg name="launch_system_monitor" default="true"/>
+  <arg name="launch_dummy_diag_publisher" default="false"/>
+  <arg name="diagnostic_graph_aggregator_graph_path" default="$(find-pkg-share offroad_launch)/config/system/diagnostics/autoware-main.yaml"/>
+
+  <!-- Tools -->
+  <arg name="rviz" default="true"/>
+  <arg name="rviz_config_name" default="autoware.rviz"/>
+  <arg name="rviz_config" default="$(find-pkg-share offroad_launch)/rviz/$(var rviz_config_name)"/>
+  <arg name="rviz_respawn" default="true"/>
+
+  <!-- Perception -->
+  <arg name="perception_mode" default="lidar"/>
+  <arg name="traffic_light_recognition/use_high_accuracy_detection" default="true"/>
+
+  <!-- Planning / control -->
+  <arg name="enable_all_modules_auto_mode" default="false"/>
+  <arg name="is_simulation" default="false"/>
+  <arg name="use_circuit_planner" default="false"/>
+
+  <include file="$(find-pkg-share offroad_launch)/launch/autoware.launch.xml">
+    <arg name="map_path" value="$(var map_path)"/>
+    <arg name="vehicle_model" value="$(var vehicle_model)"/>
+    <arg name="sensor_model" value="$(var sensor_model)"/>
+    <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+    <arg name="data_path" value="$(var data_path)"/>
+    <arg name="launch_vehicle" value="$(var launch_vehicle)"/>
+    <arg name="launch_system" value="$(var launch_system)"/>
+    <arg name="launch_map" value="$(var launch_map)"/>
+    <arg name="launch_sensing" value="$(var launch_sensing)"/>
+    <arg name="launch_sensing_driver" value="$(var launch_sensing_driver)"/>
+    <arg name="launch_localization" value="$(var launch_localization)"/>
+    <arg name="launch_perception" value="$(var launch_perception)"/>
+    <arg name="launch_planning" value="$(var launch_planning)"/>
+    <arg name="launch_control" value="$(var launch_control)"/>
+    <arg name="launch_api" value="$(var launch_api)"/>
+    <arg name="use_sim_time" value="$(var use_sim_time)"/>
+    <arg name="vehicle_id" value="$(var vehicle_id)"/>
+    <arg name="launch_vehicle_interface" value="$(var launch_vehicle_interface)"/>
+    <arg name="check_external_emergency_heartbeat" value="$(var check_external_emergency_heartbeat)"/>
+    <arg name="lanelet2_map_file" value="$(var lanelet2_map_file)"/>
+    <arg name="pointcloud_map_file" value="$(var pointcloud_map_file)"/>
+    <arg name="system_run_mode" value="$(var system_run_mode)"/>
+    <arg name="launch_system_monitor" value="$(var launch_system_monitor)"/>
+    <arg name="launch_dummy_diag_publisher" value="$(var launch_dummy_diag_publisher)"/>
+    <arg name="diagnostic_graph_aggregator_graph_path" value="$(var diagnostic_graph_aggregator_graph_path)"/>
+    <arg name="rviz" value="$(var rviz)"/>
+    <arg name="rviz_config" value="$(var rviz_config)"/>
+    <arg name="rviz_respawn" value="$(var rviz_respawn)"/>
+    <arg name="perception_mode" value="$(var perception_mode)"/>
+    <arg name="traffic_light_recognition/use_high_accuracy_detection" value="$(var traffic_light_recognition/use_high_accuracy_detection)"/>
+    <arg name="enable_all_modules_auto_mode" value="$(var enable_all_modules_auto_mode)"/>
+    <arg name="is_simulation" value="$(var is_simulation)"/>
+    <arg name="use_circuit_planner" value="$(var use_circuit_planner)"/>
+    <!-- Lite-specific overrides -->
+    <arg name="planning_module_preset" value="lite"/>
+    <arg name="control_module_preset" value="lite"/>
+    <arg name="use_empty_dynamic_object_publisher" value="true"/>
+    <arg name="use_perception_analytics_publisher" value="false"/>
+  </include>
+</launch>

@@ -46,6 +46,8 @@
   <!-- Perception -->
   <arg name="perception_mode" default="lidar" description="select perception mode. camera_lidar_radar_fusion, camera_lidar_fusion, lidar_radar_fusion, lidar, radar"/>
   <arg name="traffic_light_recognition/use_high_accuracy_detection" default="true" description="enable to use high accuracy detection for traffic light recognition"/>
+  <arg name="use_empty_dynamic_object_publisher" default="false" description="if true, skip object detection pipeline and publish empty objects"/>
+  <arg name="use_perception_analytics_publisher" default="true" description="launch perception analytics publisher"/>
   <!-- Auto mode setting-->
   <arg name="enable_all_modules_auto_mode" default="false" description="enable all module's auto mode"/>
   <arg name="is_simulation" default="false" description="Autoware's behavior will change depending on whether this is a simulation or not."/>
@@ -106,6 +108,8 @@
     <include file="$(find-pkg-share offroad_launch)/launch/components/tier4_perception_component.launch.xml">
       <arg name="data_path" value="$(var data_path)"/>
       <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+      <arg name="use_empty_dynamic_object_publisher" value="$(var use_empty_dynamic_object_publisher)"/>
+      <arg name="use_perception_analytics_publisher" value="$(var use_perception_analytics_publisher)"/>
     </include>
   </group>
 
