@@ -89,5 +89,6 @@
     <arg name="control_module_preset" value="lite"/>
     <arg name="use_empty_dynamic_object_publisher" value="true"/>
     <arg name="use_perception_analytics_publisher" value="false"/>
+    <arg name="use_obstacle_segmentation_time_series_filter" value="false"/>
   </include>
 </launch>
