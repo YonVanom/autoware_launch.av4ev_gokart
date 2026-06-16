@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>offroad_launch_minimal</name>
+  <version>0.1.0</version>
+  <description>Minimal Autoware stack for fixed circuit driving</description>
+  <maintainer email="yonvanom@seas.upenn.edu">YonVanom</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>autoware_launch</exec_depend>
+  <exec_depend>tier4_vehicle_launch</exec_depend>
+  <exec_depend>tier4_map_launch</exec_depend>
+  <exec_depend>tier4_sensing_launch</exec_depend>
+  <exec_depend>tier4_localization_launch</exec_depend>
+  <exec_depend>tier4_planning_launch</exec_depend>
+  <!-- tier4_control_launch kept for its composable node implementations referenced by control.launch.xml -->
+  <exec_depend>tier4_control_launch</exec_depend>
+  <exec_depend>tier4_autoware_api_launch</exec_depend>
+  <exec_depend>autoware_global_parameter_loader</exec_depend>
+  <exec_depend>autoware_dummy_perception_publisher</exec_depend>
+  <exec_depend>autoware_circuit_route_planner</exec_depend>
+  <exec_depend>topic_tools</exec_depend>
+  <exec_depend>autoware_diagnostic_graph_aggregator</exec_depend>
+  <exec_depend>autoware_external_cmd_selector</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
