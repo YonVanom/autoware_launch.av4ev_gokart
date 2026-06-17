@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Publish a dummy empty OccupancyGrid for the simulator.
+"""Publish a dummy empty OccupancyGrid.
 
 BehaviorPathPlanner's isDataReady() blocks until /perception/occupancy_grid_map/map
-arrives.  In our minimal stack the obstacle segmentation pipeline doesn't produce
+arrives.  In the minimal stack the obstacle segmentation pipeline doesn't produce
 an occupancy grid (time-series filter is off), so planning never outputs a trajectory.
 An empty grid (all cells -1 = unknown) satisfies the check without adding fake obstacles.
 """
@@ -13,9 +13,9 @@ from nav_msgs.msg import OccupancyGrid
 from std_msgs.msg import Header
 
 
-class SimOccupancyGridPublisher(Node):
+class OccupancyGridPublisher(Node):
     def __init__(self):
-        super().__init__("sim_occupancy_grid_publisher")
+        super().__init__("occupancy_grid_publisher")
         qos = QoSProfile(
             depth=1,
             reliability=ReliabilityPolicy.RELIABLE,
@@ -40,7 +40,7 @@ class SimOccupancyGridPublisher(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    node = SimOccupancyGridPublisher()
+    node = OccupancyGridPublisher()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
