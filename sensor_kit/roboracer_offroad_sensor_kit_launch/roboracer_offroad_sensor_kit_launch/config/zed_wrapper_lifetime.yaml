@@ -6,7 +6,7 @@
       imu_fusion: true
       set_gravity_as_origin: true
       area_memory: true
-      area_file_path: '/home/nvidia/ros2_ws/src/zed_slam/data/maps/your_map.area'
+      area_file_path: ''  # overridden at launch by pos_tracking.area_file_path:=$(map_path)/area.area
       enable_localization_only: false   # lifetime: extend the map
       save_area_memory_on_closing: true # write updated map on shutdown
       publish_pose_cov: true
