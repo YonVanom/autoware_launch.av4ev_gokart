@@ -22,6 +22,7 @@
   <let name="awl" value="$(find-pkg-share autoware_launch)/config/planning"/>
   <let name="own" value="$(find-pkg-share offroad_launch_minimal)/config/planning"/>
   <let name="awl_common" value="$(var awl)/scenario_planning/common"/>
+  <let name="own_common" value="$(var own)/scenario_planning/common"/>
   <let name="awl_bpp" value="$(var awl)/scenario_planning/lane_driving/behavior_planning/behavior_path_planner"/>
   <let name="awl_bvp" value="$(var awl)/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner"/>
   <let name="awl_motion" value="$(var awl)/scenario_planning/lane_driving/motion_planning"/>
@@ -34,8 +35,8 @@
     <arg name="input_objects_topic_name" value="/perception/object_recognition/objects"/>
     <arg name="input_pointcloud_topic_name" value="/perception/obstacle_segmentation/pointcloud"/>
 
-    <!-- common (from autoware_launch defaults) -->
-    <arg name="common_param_path"         value="$(var awl_common)/common.param.yaml"/>
+    <!-- common (racing-tuned copies in offroad_launch_minimal) -->
+    <arg name="common_param_path"         value="$(var own_common)/common.param.yaml"/>
     <arg name="nearest_search_param_path" value="$(var awl_common)/nearest_search.param.yaml"/>
     <arg name="costmap_generator_param_path" value="$(var awl_common)/costmap_generator.param.yaml"/>
 
@@ -43,9 +44,9 @@
     <arg name="mission_planner_param_path"
          value="$(var own)/mission_planning/mission_planner/mission_planner.param.yaml"/>
 
-    <!-- behavior path planner -->
+    <!-- behavior path planner (own copy: 0.5m path intervals vs autoware_launch 2.0m) -->
     <arg name="behavior_path_planner_common_param_path"
-         value="$(var awl_bpp)/behavior_path_planner.param.yaml"/>
+         value="$(var own)/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/behavior_path_planner.param.yaml"/>
     <arg name="behavior_path_planner_scene_module_manager_param_path"
          value="$(var awl_bpp)/scene_module_manager.param.yaml"/>
     <arg name="behavior_path_planner_side_shift_module_param_path"
@@ -79,7 +80,7 @@
 
     <!-- behavior velocity planner -->
     <arg name="behavior_velocity_smoother_type_param_path"
-         value="$(var awl_common)/autoware_velocity_smoother/Analytical.param.yaml"/>
+         value="$(var own_common)/autoware_velocity_smoother/Analytical.param.yaml"/>
     <arg name="behavior_velocity_planner_param_path"               value="$(var awl_bvp)/behavior_velocity_planner.param.yaml"/>
     <arg name="behavior_velocity_planner_common_param_path"        value="$(var awl_bvp)/behavior_velocity_planner_common.param.yaml"/>
     <arg name="behavior_velocity_planner_blind_spot_module_param_path"         value="$(var awl_bvp)/blind_spot.param.yaml"/>
@@ -102,9 +103,9 @@
     <arg name="freespace_planner_param_path"
          value="$(var own)/scenario_planning/parking/freespace_planner/freespace_planner.param.yaml"/>
 
-    <!-- motion planning -->
+    <!-- motion planning (own path_optimizer: 0.1m/0.2m resolution vs autoware_launch 0.5m/1.0m) -->
     <arg name="elastic_band_smoother_param_path"  value="$(var awl_motion)/path_smoother/elastic_band_smoother.param.yaml"/>
-    <arg name="path_optimizer_param_path"         value="$(var awl_motion)/autoware_path_optimizer/path_optimizer.param.yaml"/>
+    <arg name="path_optimizer_param_path"         value="$(var own)/scenario_planning/lane_driving/motion_planning/autoware_path_optimizer/path_optimizer.param.yaml"/>
     <arg name="path_sampler_param_path"           value="$(var awl_motion)/path_sampler/path_sampler.param.yaml"/>
     <arg name="surround_obstacle_checker_param_path" value="$(var awl_motion)/surround_obstacle_checker/surround_obstacle_checker.param.yaml"/>
     <arg name="motion_velocity_planner_param_path"   value="$(var awl_motion)/motion_velocity_planner/motion_velocity_planner.param.yaml"/>
@@ -127,13 +128,13 @@
     <arg name="motion_velocity_planner_road_user_stop_module_param_path"
          value="$(var awl_motion)/motion_velocity_planner/road_user_stop.param.yaml"/>
     <arg name="motion_velocity_planner_velocity_smoother_type_param_path"
-         value="$(var awl_common)/autoware_velocity_smoother/Analytical.param.yaml"/>
+         value="$(var own_common)/autoware_velocity_smoother/Analytical.param.yaml"/>
 
-    <!-- velocity smoother -->
+    <!-- velocity smoother (racing-tuned copies in offroad_launch_minimal) -->
     <arg name="velocity_smoother_param_path"
-         value="$(var awl_common)/autoware_velocity_smoother/velocity_smoother.param.yaml"/>
+         value="$(var own_common)/autoware_velocity_smoother/velocity_smoother.param.yaml"/>
     <arg name="velocity_smoother_type_param_path"
-         value="$(var awl_common)/autoware_velocity_smoother/$(var velocity_smoother_type).param.yaml"/>
+         value="$(var own_common)/autoware_velocity_smoother/$(var velocity_smoother_type).param.yaml"/>
 
     <!-- planning validator (customized) -->
     <arg name="planning_validator_param_path"

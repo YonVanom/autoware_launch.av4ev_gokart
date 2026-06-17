@@ -18,15 +18,15 @@
     emergency_state_overshoot_stop_dist: 1.5
 
     # drive state
-    kp: 1.0
-    ki: 0.1
+    kp: 1.5
+    ki: 0.2
     kd: 0.0
     max_out: 1.0
     min_out: -1.0
     max_p_effort: 1.0
     min_p_effort: -1.0
-    max_i_effort: 0.3
-    min_i_effort: -0.3
+    max_i_effort: 0.4
+    min_i_effort: -0.4
     max_d_effort: 0.0
     min_d_effort: 0.0
     lpf_vel_error_gain: 0.9
@@ -37,11 +37,11 @@
     brake_keeping_acc: -0.2
 
     # smooth stop state
-    smooth_stop_max_strong_acc: -0.5
-    smooth_stop_min_strong_acc: -0.8
-    smooth_stop_weak_acc: -0.3
-    smooth_stop_weak_stop_acc: -0.8
-    smooth_stop_strong_stop_acc: -3.4
+    smooth_stop_max_strong_acc: -1.0
+    smooth_stop_min_strong_acc: -1.5
+    smooth_stop_weak_acc: -0.5
+    smooth_stop_weak_stop_acc: -1.5
+    smooth_stop_strong_stop_acc: -5.0
     smooth_stop_max_fast_vel: 0.5
     smooth_stop_min_running_vel: 0.01
     smooth_stop_min_running_acc: 0.01
@@ -63,12 +63,12 @@
     acc_feedback_gain: 0.0
 
     # acceleration limit
-    max_acc: 3.0
-    min_acc: -5.0
+    max_acc: 5.0
+    min_acc: -6.0
 
     # jerk limit
-    max_jerk: 2.0
-    min_jerk: -5.0
+    max_jerk: 8.0
+    min_jerk: -8.0
     max_acc_cmd_diff: 50.0 # [m/s^2 * s^-1]
 
     # slope compensation
