@@ -36,7 +36,7 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             'area_file',
-            default_value='/home/nvidia/ros2_ws/src/zed_slam/data/maps/your_map.area',
+            default_value='/home/autoware/autoware_map/hallway/area_map.area',
             description='Path to the .area map file for lifetime/localize mode',
         ),
         IncludeLaunchDescription(
