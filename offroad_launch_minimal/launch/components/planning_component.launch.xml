@@ -150,6 +150,6 @@
   </include>
 
   <group if="$(var use_circuit_planner)">
-    <include file="$(find-pkg-share autoware_circuit_route_planner)/launch/circuit_route_planner.launch.xml"/>
+    <include file="$(find-pkg-share roboracer_circuit_route_planner)/launch/circuit_route_planner.launch.xml"/>
   </group>
 </launch>

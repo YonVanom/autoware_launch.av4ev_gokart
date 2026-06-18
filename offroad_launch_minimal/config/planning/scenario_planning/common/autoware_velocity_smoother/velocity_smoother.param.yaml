@@ -32,8 +32,10 @@
     engage_exit_ratio: 0.5
     stop_dist_to_prohibit_engage: 0.5
 
-    # stop velocity
-    stopping_velocity: 2.778
+    # stop velocity — only apply full-stop behavior for actual 0-speed waypoints.
+    # Must be below the minimum corner speed (~1.5 m/s); previously 2.778 caused the
+    # smoother to treat every corner target as a stop and brake to 0.
+    stopping_velocity: 0.3
     stopping_distance: 0.0
 
     # path extraction parameters

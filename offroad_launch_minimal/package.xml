@@ -19,7 +19,7 @@
   <exec_depend>tier4_autoware_api_launch</exec_depend>
   <exec_depend>autoware_global_parameter_loader</exec_depend>
   <exec_depend>autoware_dummy_perception_publisher</exec_depend>
-  <exec_depend>autoware_circuit_route_planner</exec_depend>
+  <exec_depend>roboracer_circuit_route_planner</exec_depend>
   <exec_depend>topic_tools</exec_depend>
   <exec_depend>autoware_diagnostic_graph_aggregator</exec_depend>
   <exec_depend>autoware_external_cmd_selector</exec_depend>
