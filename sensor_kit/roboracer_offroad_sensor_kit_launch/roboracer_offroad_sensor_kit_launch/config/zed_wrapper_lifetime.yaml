@@ -5,7 +5,7 @@
       grab_frame_rate: 60
     pos_tracking:
       pos_tracking_enabled: true
-      pos_tracking_mode: 'GEN_1'
+      pos_tracking_mode: 'GEN_3'
       imu_fusion: true
       set_gravity_as_origin: true
       area_memory: true
@@ -18,5 +18,5 @@
 
     depth:
       depth_mode: 'NEURAL_LIGHT'
-      point_cloud_freq: 15.0
+      point_cloud_freq: 0.0
       point_cloud_res: 'COMPACT'
