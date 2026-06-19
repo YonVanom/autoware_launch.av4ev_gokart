@@ -2,7 +2,9 @@
 
   <!-- Camera -->
   <node pkg="topic_tools" exec="relay" name="camera_relay"
-        args="/ego/rgb /sensing/camera/rgb/image_raw" output="screen" />
+        args="/ego/rgb /sensing/camera/traffic_light/image_raw" output="screen" />
+  <node pkg="topic_tools" exec="relay" name="camera_info_relay"
+        args="/ego/camera_info /sensing/camera/traffic_light/camera_info" output="screen" />
 
   <!-- IMU -->
   <node pkg="topic_tools" exec="relay" name="imu_relay"

@@ -11,6 +11,8 @@
   <!-- launch module preset -->
   <arg name="planning_module_preset" default="default" description="planning module preset"/>
   <arg name="control_module_preset" default="default" description="control module preset"/>
+  <!-- Circuit planner: replace goal-based mission planner with a rolling-window loop planner -->
+  <arg name="use_circuit_planner" default="false" description="launch circuit route planner for continuous loop driving instead of goal-based planning"/>
 
   <!-- Optional parameters -->
   <!-- Modules to be launched -->
@@ -53,6 +55,7 @@
       <!-- launch module preset -->
       <arg name="planning_module_preset" value="$(var planning_module_preset)"/>
       <arg name="control_module_preset" value="$(var control_module_preset)"/>
+      <arg name="use_circuit_planner" value="$(var use_circuit_planner)"/>
       <!-- Modules to be launched -->
       <arg name="launch_vehicle" value="$(var vehicle)"/>
       <arg name="launch_map" value="$(var map)"/>
