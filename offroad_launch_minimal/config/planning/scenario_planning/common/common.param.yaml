@@ -1,0 +1,17 @@
+/**:
+  ros__parameters:
+    max_vel: 8.0            # max velocity limit [m/s] — raised from 4.17 for racing
+
+    # constraints for normal driving (used by JerkFiltered velocity smoother QP)
+    normal:
+      min_acc: -4.0         # hard braking for corners [m/ss]
+      max_acc: 3.0          # aggressive acceleration on straights [m/ss]
+      min_jerk: -5.0        # sharp brake onset [m/sss]
+      max_jerk: 5.0         # sharp throttle onset [m/sss]
+
+    # absolute limits — smoother will not exceed these even under heavy penalty
+    limit:
+      min_acc: -6.0         # emergency / limit braking [m/ss]
+      max_acc: 5.0          # limit acceleration [m/ss]
+      min_jerk: -8.0        # limit jerk [m/sss]
+      max_jerk: 8.0         # limit jerk [m/sss]

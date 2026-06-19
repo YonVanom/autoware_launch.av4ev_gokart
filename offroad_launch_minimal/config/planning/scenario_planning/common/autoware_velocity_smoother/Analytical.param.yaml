@@ -1,0 +1,25 @@
+/**:
+  ros__parameters:
+    resample:
+      ds_resample: 0.1
+      num_resample: 1
+      delta_yaw_threshold: 0.785
+
+    latacc:
+      enable_constant_velocity_while_turning: false
+      constant_velocity_dist_threshold: 2.0
+
+    forward:
+      max_acc: 3.0    # aggressive acceleration [m/ss]
+      min_acc: -4.0   # hard braking [m/ss]
+      max_jerk: 5.0   # [m/sss]
+      min_jerk: -5.0  # [m/sss]
+      kp: 0.5
+
+    backward:
+      start_jerk: -0.1
+      min_jerk_mild_stop: -1.0
+      min_jerk: -5.0
+      min_acc_mild_stop: -2.0
+      min_acc: -6.0
+      span_jerk: -0.01

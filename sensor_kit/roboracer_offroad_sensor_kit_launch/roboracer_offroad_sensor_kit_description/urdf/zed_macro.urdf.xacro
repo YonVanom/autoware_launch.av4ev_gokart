@@ -210,12 +210,12 @@
       <joint name="${name}_left_camera_joint" type="fixed">
         <parent link="${name}_camera_center"/>
         <child link="${name}_left_camera_frame"/>
-        <origin xyz="${optical_offset_x} ${baseline/2} 0" rpy="0 0 -${M_PI/2}" />
+        <origin xyz="${optical_offset_x} ${baseline/2} 0" rpy="0 0 0" />
       </joint>
 
       <link name="${name}_left_camera_frame_optical"/>
       <joint name="${name}_left_camera_joint_optical" type="fixed">
-        <origin xyz="0 0 0" rpy="-${M_PI/2} 0.0 0.0"/>
+        <origin xyz="0 0 0" rpy="-${M_PI/2} 0.0 -${M_PI/2}"/>
         <parent link="${name}_left_camera_frame"/>
         <child link="${name}_left_camera_frame_optical"/>
       </joint>
@@ -243,12 +243,12 @@
       <joint name="${name}_right_camera_joint" type="fixed">
         <parent link="${name}_camera_center"/>
         <child link="${name}_right_camera_frame"/>
-        <origin xyz="${optical_offset_x} -${baseline/2} 0" rpy="0 0 -${M_PI/2}" />
+        <origin xyz="${optical_offset_x} -${baseline/2} 0" rpy="0 0 0" />
       </joint>
 
       <link name="${name}_right_camera_frame_optical"/>
       <joint name="${name}_right_camera_joint_optical" type="fixed">
-        <origin xyz="0 0 0" rpy="-${M_PI/2} 0.0 0"/>
+        <origin xyz="0 0 0" rpy="-${M_PI/2} 0.0 -${M_PI/2}"/>
         <parent link="${name}_right_camera_frame"/>
         <child link="${name}_right_camera_frame_optical"/>
       </joint>

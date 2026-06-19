@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Minimal perception: ground segmentation for AEB + empty objects for planning.
+       Bypasses perception.launch.xml entirely — avoids its ~60 required args.
+       Single/time-series filters off: no TF dependency before NDT converges. -->
+
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+  <arg name="vehicle_model" default="sample_vehicle"/>
+  <arg name="use_sim_time" default="false"/>
+
+  <group scoped="false">
+    <include file="$(find-pkg-share autoware_global_parameter_loader)/launch/global_params.launch.py">
+      <arg name="use_sim_time" value="$(var use_sim_time)"/>
+      <arg name="vehicle_model" value="$(var vehicle_model)"/>
+    </include>
+  </group>
+
+  <!-- Empty dynamic object publisher: satisfies planning's object_recognition/objects subscriber -->
+  <node pkg="autoware_dummy_perception_publisher" exec="empty_objects_publisher" name="empty_objects_publisher" output="screen">
+    <remap from="~/output/objects" to="/perception/object_recognition/objects"/>
+  </node>
+
+  <!-- Ground segmentation: removes ground plane so AEB sees only real above-ground obstacles -->
+  <group>
+    <push-ros-namespace namespace="obstacle_segmentation"/>
+    <include file="$(find-pkg-share tier4_perception_launch)/launch/obstacle_segmentation/ground_segmentation/ground_segmentation.launch.py">
+      <arg name="base_frame" value="base_link"/>
+      <arg name="use_intra_process" value="true"/>
+      <arg name="use_multithread" value="true"/>
+      <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+      <arg name="input/pointcloud" value="/sensing/lidar/concatenated/pointcloud"/>
+      <arg name="obstacle_segmentation_ground_segmentation_param_path"
+           value="$(find-pkg-share offroad_launch_minimal)/config/perception/obstacle_segmentation/ground_segmentation/ground_segmentation.param.yaml"/>
+      <arg name="use_single_frame_filter" value="false"/>
+      <arg name="use_time_series_filter" value="false"/>
+    </include>
+  </group>
+</launch>

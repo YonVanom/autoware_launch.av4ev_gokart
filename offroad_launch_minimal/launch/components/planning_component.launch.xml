@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="module_preset" default="minimal"/>
+  <arg name="use_circuit_planner" default="true"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+  <arg name="enable_all_modules_auto_mode" default="false"/>
+  <arg name="is_simulation" default="false"/>
+  <arg name="use_sim_time" default="false"/>
+  <arg name="vehicle_model" default="sample_vehicle"/>
+
+  <group scoped="false">
+    <include file="$(find-pkg-share autoware_global_parameter_loader)/launch/global_params.launch.py">
+      <arg name="use_sim_time" value="$(var use_sim_time)"/>
+      <arg name="vehicle_model" value="$(var vehicle_model)"/>
+    </include>
+  </group>
+
+  <!-- Preset: controls which planning modules run -->
+  <include file="$(find-pkg-share offroad_launch_minimal)/config/planning/preset/$(var module_preset)_preset.yaml"/>
+
+  <!-- Path roots (lets keep the include below readable) -->
+  <let name="awl" value="$(find-pkg-share autoware_launch)/config/planning"/>
+  <let name="own" value="$(find-pkg-share offroad_launch_minimal)/config/planning"/>
+  <let name="awl_common" value="$(var awl)/scenario_planning/common"/>
+  <let name="own_common" value="$(var own)/scenario_planning/common"/>
+  <let name="awl_bpp" value="$(var awl)/scenario_planning/lane_driving/behavior_planning/behavior_path_planner"/>
+  <let name="awl_bvp" value="$(var awl)/scenario_planning/lane_driving/behavior_planning/behavior_velocity_planner"/>
+  <let name="awl_motion" value="$(var awl)/scenario_planning/lane_driving/motion_planning"/>
+
+  <include file="$(find-pkg-share tier4_planning_launch)/launch/planning.launch.xml">
+    <arg name="vehicle_param_file" value="$(find-pkg-share $(var vehicle_model)_description)/config/vehicle_info.param.yaml"/>
+    <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+    <arg name="enable_all_modules_auto_mode" value="$(var enable_all_modules_auto_mode)"/>
+    <arg name="is_simulation" value="$(var is_simulation)"/>
+    <arg name="input_objects_topic_name" value="/perception/object_recognition/objects"/>
+    <arg name="input_pointcloud_topic_name" value="/perception/obstacle_segmentation/pointcloud"/>
+
+    <!-- common (racing-tuned copies in offroad_launch_minimal) -->
+    <arg name="common_param_path"         value="$(var own_common)/common.param.yaml"/>
+    <arg name="nearest_search_param_path" value="$(var awl_common)/nearest_search.param.yaml"/>
+    <arg name="costmap_generator_param_path" value="$(var awl_common)/costmap_generator.param.yaml"/>
+
+    <!-- mission planner (customized) -->
+    <arg name="mission_planner_param_path"
+         value="$(var own)/mission_planning/mission_planner/mission_planner.param.yaml"/>
+
+    <!-- behavior path planner (own copy: 0.5m path intervals vs autoware_launch 2.0m) -->
+    <arg name="behavior_path_planner_common_param_path"
+         value="$(var own)/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/behavior_path_planner.param.yaml"/>
+    <arg name="behavior_path_planner_scene_module_manager_param_path"
+         value="$(var awl_bpp)/scene_module_manager.param.yaml"/>
+    <arg name="behavior_path_planner_side_shift_module_param_path"
+         value="$(var awl_bpp)/side_shift/side_shift.param.yaml"/>
+    <arg name="behavior_path_planner_static_obstacle_avoidance_module_param_path"
+         value="$(var awl_bpp)/autoware_behavior_path_static_obstacle_avoidance_module/static_obstacle_avoidance.param.yaml"/>
+    <arg name="behavior_path_planner_avoidance_by_lc_module_param_path"
+         value="$(var awl_bpp)/avoidance_by_lane_change/avoidance_by_lane_change.param.yaml"/>
+    <arg name="behavior_path_planner_sampling_planner_module_param_path"
+         value="$(var awl_bpp)/sampling_planner/sampling_planner.param.yaml"/>
+    <arg name="behavior_path_planner_dynamic_obstacle_avoidance_module_param_path"
+         value="$(var awl_bpp)/autoware_behavior_path_dynamic_obstacle_avoidance_module/dynamic_obstacle_avoidance.param.yaml"/>
+    <arg name="behavior_path_planner_lane_change_module_param_path"
+         value="$(var awl_bpp)/lane_change/lane_change.param.yaml"/>
+    <arg name="behavior_path_planner_goal_planner_module_param_path"
+         value="$(var awl_bpp)/goal_planner/goal_planner.param.yaml"/>
+    <arg name="behavior_path_planner_start_planner_module_param_path"
+         value="$(var awl_bpp)/start_planner/start_planner.param.yaml"/>
+    <arg name="behavior_path_bidirectional_traffic_module_param_path"
+         value="$(var awl_bpp)/autoware_behavior_path_bidirectional_traffic_module/bidirectional_traffic.param.yaml"/>
+    <arg name="behavior_path_planner_drivable_area_expansion_param_path"
+         value="$(var awl_bpp)/drivable_area_expansion.param.yaml"/>
+
+    <!-- path generator -->
+    <arg name="path_generator_param_path"
+         value="$(var awl)/scenario_planning/lane_driving/behavior_planning/path_generator/path_generator.param.yaml"/>
+
+    <!-- hazard lights selector -->
+    <arg name="hazard_lights_selector_param_path"
+         value="$(var awl_common)/autoware_hazard_lights_selector/hazard_lights_selector.param.yaml"/>
+
+    <!-- behavior velocity planner -->
+    <arg name="behavior_velocity_smoother_type_param_path"
+         value="$(var own_common)/autoware_velocity_smoother/Analytical.param.yaml"/>
+    <arg name="behavior_velocity_planner_param_path"               value="$(var awl_bvp)/behavior_velocity_planner.param.yaml"/>
+    <arg name="behavior_velocity_planner_common_param_path"        value="$(var awl_bvp)/behavior_velocity_planner_common.param.yaml"/>
+    <arg name="behavior_velocity_planner_blind_spot_module_param_path"         value="$(var awl_bvp)/blind_spot.param.yaml"/>
+    <arg name="behavior_velocity_planner_crosswalk_module_param_path"          value="$(var awl_bvp)/crosswalk.param.yaml"/>
+    <arg name="behavior_velocity_planner_walkway_module_param_path"            value="$(var awl_bvp)/walkway.param.yaml"/>
+    <arg name="behavior_velocity_planner_detection_area_module_param_path"     value="$(var awl_bvp)/detection_area.param.yaml"/>
+    <arg name="behavior_velocity_planner_intersection_module_param_path"       value="$(var awl_bvp)/intersection.param.yaml"/>
+    <arg name="behavior_velocity_planner_stop_line_module_param_path"          value="$(var awl_bvp)/stop_line.param.yaml"/>
+    <arg name="behavior_velocity_planner_traffic_light_module_param_path"      value="$(var awl_bvp)/traffic_light.param.yaml"/>
+    <arg name="behavior_velocity_planner_virtual_traffic_light_module_param_path" value="$(var awl_bvp)/virtual_traffic_light.param.yaml"/>
+    <arg name="behavior_velocity_planner_occlusion_spot_module_param_path"     value="$(var awl_bvp)/occlusion_spot.param.yaml"/>
+    <arg name="behavior_velocity_planner_no_stopping_area_module_param_path"   value="$(var awl_bvp)/no_stopping_area.param.yaml"/>
+    <arg name="behavior_velocity_planner_roundabout_module_param_path"         value="$(var awl_bvp)/roundabout.param.yaml"/>
+    <arg name="behavior_velocity_planner_speed_bump_module_param_path"         value="$(var awl_bvp)/speed_bump.param.yaml"/>
+    <arg name="behavior_velocity_planner_no_drivable_lane_module_param_path"   value="$(var awl_bvp)/no_drivable_lane.param.yaml"/>
+    <arg name="compare_map_filter_param_path"
+         value="$(find-pkg-share autoware_launch)/config/perception/object_recognition/detection/pointcloud_filter/pointcloud_map_filter.param.yaml"/>
+
+    <!-- parking (customized) -->
+    <arg name="freespace_planner_param_path"
+         value="$(var own)/scenario_planning/parking/freespace_planner/freespace_planner.param.yaml"/>
+
+    <!-- motion planning (own path_optimizer: 0.1m/0.2m resolution vs autoware_launch 0.5m/1.0m) -->
+    <arg name="elastic_band_smoother_param_path"  value="$(var awl_motion)/path_smoother/elastic_band_smoother.param.yaml"/>
+    <arg name="path_optimizer_param_path"         value="$(var own)/scenario_planning/lane_driving/motion_planning/autoware_path_optimizer/path_optimizer.param.yaml"/>
+    <arg name="path_sampler_param_path"           value="$(var awl_motion)/path_sampler/path_sampler.param.yaml"/>
+    <arg name="surround_obstacle_checker_param_path" value="$(var awl_motion)/surround_obstacle_checker/surround_obstacle_checker.param.yaml"/>
+    <arg name="motion_velocity_planner_param_path"   value="$(var awl_motion)/motion_velocity_planner/motion_velocity_planner.param.yaml"/>
+    <arg name="motion_velocity_planner_obstacle_stop_module_param_path"
+         value="$(var awl_motion)/motion_velocity_planner/obstacle_stop.param.yaml"/>
+    <arg name="motion_velocity_planner_obstacle_slow_down_module_param_path"
+         value="$(var awl_motion)/motion_velocity_planner/obstacle_slow_down.param.yaml"/>
+    <arg name="motion_velocity_planner_obstacle_cruise_module_param_path"
+         value="$(var awl_motion)/motion_velocity_planner/obstacle_cruise.param.yaml"/>
+    <arg name="motion_velocity_planner_dynamic_obstacle_stop_module_param_path"
+         value="$(var awl_motion)/motion_velocity_planner/dynamic_obstacle_stop.param.yaml"/>
+    <arg name="motion_velocity_planner_out_of_lane_module_param_path"
+         value="$(var awl_motion)/motion_velocity_planner/out_of_lane.param.yaml"/>
+    <arg name="motion_velocity_planner_obstacle_velocity_limiter_param_path"
+         value="$(var awl_motion)/motion_velocity_planner/obstacle_velocity_limiter.param.yaml"/>
+    <arg name="motion_velocity_planner_run_out_param_path"
+         value="$(var awl_motion)/motion_velocity_planner/run_out.param.yaml"/>
+    <arg name="motion_velocity_planner_boundary_departure_prevention_module_param_path"
+         value="$(var awl_motion)/motion_velocity_planner/boundary_departure_prevention.param.yaml"/>
+    <arg name="motion_velocity_planner_road_user_stop_module_param_path"
+         value="$(var awl_motion)/motion_velocity_planner/road_user_stop.param.yaml"/>
+    <arg name="motion_velocity_planner_velocity_smoother_type_param_path"
+         value="$(var own_common)/autoware_velocity_smoother/Analytical.param.yaml"/>
+
+    <!-- velocity smoother (racing-tuned copies in offroad_launch_minimal) -->
+    <arg name="velocity_smoother_param_path"
+         value="$(var own_common)/autoware_velocity_smoother/velocity_smoother.param.yaml"/>
+    <arg name="velocity_smoother_type_param_path"
+         value="$(var own_common)/autoware_velocity_smoother/$(var velocity_smoother_type).param.yaml"/>
+
+    <!-- planning validator (customized) -->
+    <arg name="planning_validator_param_path"
+         value="$(var own)/scenario_planning/common/planning_validator/planning_validator.param.yaml"/>
+    <arg name="planning_validator_latency_checker_param_path"
+         value="$(var own)/scenario_planning/common/planning_validator/latency_checker.param.yaml"/>
+    <arg name="planning_validator_trajectory_checker_param_path"
+         value="$(var own)/scenario_planning/common/planning_validator/trajectory_checker.param.yaml"/>
+    <arg name="planning_validator_intersection_collision_checker_param_path"
+         value="$(var own)/scenario_planning/common/planning_validator/intersection_collision_checker.param.yaml"/>
+    <arg name="planning_validator_rear_collision_checker_param_path"
+         value="$(var own)/scenario_planning/common/planning_validator/rear_collision_checker.param.yaml"/>
+  </include>
+
+  <group if="$(var use_circuit_planner)">
+    <include file="$(find-pkg-share roboracer_circuit_route_planner)/launch/circuit_route_planner.launch.xml"/>
+  </group>
+</launch>

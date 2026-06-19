@@ -1,0 +1,16 @@
+files: []
+units:
+  - path: /autoware/modes/autonomous
+    type: ok
+  - path: /autoware/modes/stop
+    type: ok
+  - path: /autoware/modes/emergency_stop
+    type: ok
+  - path: /autoware/modes/comfortable_stop
+    type: ok
+  - path: /autoware/modes/pull_over
+    type: ok
+  - path: /autoware/modes/local
+    type: ok
+  - path: /autoware/modes/remote
+    type: ok
