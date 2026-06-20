@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
+  <arg name="raw_vehicle_cmd_converter_param_path" default=""/>
+  <arg name="initial_engage_state" default="false"/>
+  <arg name="control_cmd_topic" default="/control/command/control_cmd"/>
+  <arg name="odom_topic" default="/odom"/>
+  <arg name="drive_topic" default="/drive"/>
+  <arg name="servo_position_topic" default="/commands/servo/position"/>
+  <arg name="joy_topic" default="/joy"/>
+  <arg name="control_mode_report_topic" default="/vehicle/status/control_mode"/>
+  <arg name="steering_status_topic" default="/vehicle/status/steering_status"/>
+  <arg name="velocity_status_topic" default="/vehicle/status/velocity_status"/>
+
+  <include file="$(find-pkg-share f1tenth_stack)/launch/no_lidar_bringup_launch.py" />
+
+  <node pkg="roboracer_interface" exec="roboracer_interface_node" name="roboracer_interface_node" output="screen">
+    <remap from="control/command/control_cmd" to="$(var control_cmd_topic)"/>
+    <remap from="ego/odom" to="$(var odom_topic)"/>
+    <remap from="ego/drive" to="$(var drive_topic)"/>
+    <remap from="commands/servo/position" to="$(var servo_position_topic)"/>
+    <remap from="joy" to="$(var joy_topic)"/>
+    <remap from="vehicle/status/control_mode" to="$(var control_mode_report_topic)"/>
+    <remap from="vehicle/status/steering_status" to="$(var steering_status_topic)"/>
+    <remap from="vehicle/status/velocity_status" to="$(var velocity_status_topic)"/>
+  </node>
+  
+</launch>

@@ -1,0 +1,27 @@
+<launch>
+  <!-- vehicle_mirror_param_file kept for interface compatibility with tier4_sensing_launch; unused. -->
+  <arg name="vehicle_mirror_param_file" description="path to the vehicle mirror yaml (unused)"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+  <arg name="use_distortion_corrector" default="false"/>
+
+  <group>
+    <push-ros-namespace namespace="lidar"/>
+
+    <!-- Convert Isaac sim point cloud fields to the XYZI format Autoware expects. -->
+    <include file="$(find-pkg-share isaac_sim_pointcloud_adapter)/launch/isaac_sim_pointcloud_adapter.launch.xml">
+      <arg name="input_topic" value="/sensing/lidar/top/pointcloud_raw"/>
+      <arg name="output_topic" value="/sensing/lidar/top/pointcloud_raw_ex"/>
+    </include>
+
+    <!-- Crop vehicle body from the converted cloud, relay to /sensing/lidar/concatenated/pointcloud. -->
+    <group>
+      <push-ros-namespace namespace="top"/>
+      <include file="$(find-pkg-share roboracer_offroad_isaac_sensor_kit_launch)/launch/pointcloud_preprocessor_container.launch.py">
+        <arg name="base_frame" value="base_link"/>
+        <arg name="use_intra_process" value="true"/>
+        <arg name="use_multithread" value="false"/>
+      </include>
+    </group>
+
+  </group>
+</launch>

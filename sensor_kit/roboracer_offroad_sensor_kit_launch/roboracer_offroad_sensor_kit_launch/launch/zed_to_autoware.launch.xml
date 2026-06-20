@@ -1,0 +1,17 @@
+<launch>
+
+  <!-- Pose: ZED → /sensing/gnss -->
+  <node pkg="topic_tools" exec="relay" name="zed_pose_relay"
+        args="/sensing/zed/zed/pose /sensing/gnss/pose" output="screen"/>
+  <node pkg="topic_tools" exec="relay" name="zed_pose_cov_relay"
+        args="/sensing/zed/zed/pose_with_covariance /sensing/gnss/pose_with_covariance" output="screen"/>
+
+  <!-- IMU: ZED → /sensing/imu/imu_raw (consumed by imu_corrector) -->
+  <node pkg="topic_tools" exec="relay" name="zed_imu_relay"
+        args="/sensing/zed/zed/imu/data /sensing/imu/imu_raw" output="screen"/>
+
+  <!-- Point cloud: ZED → /sensing/lidar/top/pointcloud_raw -->
+  <node pkg="topic_tools" exec="relay" name="zed_pc_relay"
+        args="/sensing/zed/zed/point_cloud/cloud_registered /sensing/lidar/top/pointcloud_raw" output="screen"/>
+
+</launch>

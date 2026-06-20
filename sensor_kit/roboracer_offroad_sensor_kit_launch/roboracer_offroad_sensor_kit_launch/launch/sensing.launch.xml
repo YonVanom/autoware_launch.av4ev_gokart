@@ -1,0 +1,37 @@
+<launch>
+  <!-- Args required by tier4_sensing_launch calling convention -->
+  <arg name="launch_driver" default="true" description="do launch driver (unused; ZED starts unconditionally)"/>
+  <arg name="vehicle_mirror_param_file" description="path to the vehicle mirror yaml (unused with ZED)"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+
+  <!-- ZED camera configuration -->
+  <arg name="camera_model" default="zedxm" description="ZED camera model"/>
+  <arg name="map_path" default="" description="map directory; area_file defaults to map_path/area_map.area"/>
+  <arg name="area_file" default="$(var map_path)/area_map.area" description="Path to .area map file for lifetime/localize mode"/>
+
+  <group>
+    <!-- ZED ROS2 Wrapper (pose, IMU, point cloud) -->
+    <include file="$(find-pkg-share roboracer_offroad_sensor_kit_launch)/launch/zed_wrapper.launch.py">
+      <arg name="camera_model" value="$(var camera_model)"/>
+      <arg name="area_file" value="$(var area_file)"/>
+    </include>
+
+    <!-- Relay ZED topics to Autoware sensing topic names -->
+    <include file="$(find-pkg-share roboracer_offroad_sensor_kit_launch)/launch/zed_to_autoware.launch.xml"/>
+
+    <!-- Point cloud preprocessing: self-crop + relay to /sensing/lidar/concatenated/pointcloud -->
+    <include file="$(find-pkg-share roboracer_offroad_sensor_kit_launch)/launch/lidar.launch.xml">
+      <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
+      <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+    </include>
+
+    <!-- IMU corrector: bias-corrects /sensing/imu/imu_raw → /sensing/imu/imu_data -->
+    <include file="$(find-pkg-share roboracer_offroad_sensor_kit_launch)/launch/imu.launch.xml"/>
+
+    <!-- Vehicle Velocity Converter -->
+    <include file="$(find-pkg-share autoware_vehicle_velocity_converter)/launch/vehicle_velocity_converter.launch.xml">
+      <arg name="input_vehicle_velocity_topic" value="/vehicle/status/velocity_status"/>
+      <arg name="output_twist_with_covariance" value="/sensing/vehicle_velocity_converter/twist_with_covariance"/>
+    </include>
+  </group>
+</launch>
